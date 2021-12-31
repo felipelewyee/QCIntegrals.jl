@@ -1,4 +1,4 @@
-name = "QCIntegrals"
+name = "QCInts"
 uuid = "67d073f6-f659-405d-833d-5a2f6a1cf902"
 authors = ["Juan Felipe Huan Lew Yee <felipe.lew.yee@gmail.com>"]
 version = "0.1.0"
