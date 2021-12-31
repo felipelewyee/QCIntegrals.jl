@@ -1,4 +1,4 @@
-module ERIs
+module QCInts
 
 using HypergeometricFunctions
 using LinearAlgebra
