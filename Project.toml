@@ -1,0 +1,8 @@
+name = "QCIntegrals"
+uuid = "67d073f6-f659-405d-833d-5a2f6a1cf902"
+authors = ["Juan Felipe Huan Lew Yee <felipe.lew.yee@gmail.com>"]
+version = "0.1.0"
+
+[deps]
+HypergeometricFunctions = "34004b35-14d8-5ef3-9330-4cdb6864b03a"
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
