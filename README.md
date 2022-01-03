@@ -14,19 +14,19 @@ H   0.277400  0.892900  0.254400
 H   0.606800 -0.238300 -0.716900
 """
 
-shells = get_all_shells_from_xyz(molecule,"aug-cc-pvdz")
-Zs,coords = get_Z_xyz(molecule)
+shells = QCIntegrals.get_all_shells_from_xyz(molecule,"aug-cc-pvdz")
+Zs,coords = QCIntegrals.get_Z_xyz(molecule)
 
-S = get_S(shells)
-T = get_T(shells)
-V = get_V(shells,Zs,coords)
+S = QCIntegrals.get_S(shells)
+T = QCIntegrals.get_T(shells)
+V = QCIntegrals.get_V(shells,Zs,coords)
 ```
 
 Two-electron integrals can also be computed
 ```julia
-I4 = get_I4(shells)
+I4 = QCIntegrals.get_I4(shells)
 
-shells_aux = get_all_shells_from_xyz(molecule,"aug-cc-pvdz-jkfit",normalized=false,auxiliar=true)
-I2 = get_I2(shells_aux)
-I3 = get_I3(shells_aux)
+shells_aux = QCIntegrals.get_all_shells_from_xyz(molecule,"aug-cc-pvdz-jkfit",normalized=false,auxiliar=true)
+I2 = QCIntegrals.get_I2(shells_aux)
+I3 = QCIntegrals.get_I3(shells_aux)
 ```
