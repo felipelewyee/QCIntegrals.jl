@@ -772,6 +772,4 @@ function get_I3(shells,shells_aux)
     
 end
 
-@btime I = get_I3(shells,shells_aux)
-
 end # module
