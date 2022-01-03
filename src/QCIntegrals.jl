@@ -114,9 +114,6 @@ function build_shell_pair(g_a, g_b)
 
 end
 
-pairAB = build_shell_pair(g_a,g_b)
-pairCD = build_shell_pair(g_c,g_d)
-
 function get_set_of_shells(element,coord,basis_name;normalized=true,auxiliar=false)
 
     key_to_l = Dict("S" => 0, "P" => 1, "D" => 2, "F" => 3, "G" => 4, "H" => 5, "I" => 6)
@@ -183,8 +180,6 @@ function get_set_of_shells(element,coord,basis_name;normalized=true,auxiliar=fal
                         
 end
 
-shells = get_set_of_shells("O",[0.0,0.0,0.0],"aug-cc-pvdz",normalized=true)
-
 function get_all_shells_from_xyz(molecule,basis_name;normalized=true,auxiliar=false)
     molecule = split(molecule,"\n")    
     natoms = size(molecule)[1]
@@ -198,14 +193,6 @@ function get_all_shells_from_xyz(molecule,basis_name;normalized=true,auxiliar=fa
     end
     return shells        
 end
-
-molecule = """
-O   0.000000  0.000000  0.000000
-H   0.277400  0.892900  0.254400
-H   0.606800 -0.238300 -0.716900
-"""
-
-shells = get_all_shells_from_xyz(molecule,"aug-cc-pvdz")
 
 function get_Z_xyz(molecule)
     symbol_to_Z = Dict("H" => 1, "He" => 2, "Li" => 3, "Be" => 4, "B" => 5, "C" => 6, "N" => 7, "O" => 8, "F" => 9, "Ne" => 10) 
@@ -226,8 +213,6 @@ function get_Z_xyz(molecule)
     
 end
 
-Zs,coords = get_Z_xyz(molecule)
-
 function get_nbf(shells)
     
     nbf = 0
@@ -239,8 +224,6 @@ function get_nbf(shells)
     return nbf
     
 end
-
-nbf = get_nbf(shells)
 
 function build_R(lt,alpha,Rpq,F,pairAB,pairCD)
     R = [[[[[[0.0 for lz in 0:lt-n-lx-ly] for ly in 0:lt-n-lx] for lx in 0:lt-n] for n in 0:lt] for jj in eachindex(pairCD.exp)] for ii in eachindex(pairAB.exp)]
@@ -456,9 +439,6 @@ function kinetic(pairAB)
     
 end
 
-pair = build_shell_pair(shells[1],shells[1])
-results = kinetic(pair)
-
 function get_T(shells)
     
     nbf = get_nbf(shells)
@@ -479,8 +459,6 @@ function get_T(shells)
     return T
     
 end
-
-@btime T = get_T(shells)
 
 function build_R_one(coord,pairAB)
     
@@ -589,8 +567,6 @@ function get_V(shells,Zs,coords)
     
 end
 
-@btime V = get_V(shells,Zs,coords)
-
 function ERI(pairAB,pairCD)
 
     g_a = pairAB.g_a
@@ -660,8 +636,6 @@ function ERI(pairAB,pairCD)
     
 end      
 
-@btime ERI(pairAB,pairCD)
-
 function get_I4(shells)
     
     nbf = get_nbf(shells)
@@ -694,8 +668,6 @@ function get_I4(shells)
     return I
     
 end
-
-@btime I = get_I4(shells)
 
 function normalize_aux_shell(g_a)
     
@@ -744,8 +716,6 @@ function build_aux_shell(l,exp,coef,coord)
     
 end
 
-shells_aux = get_all_shells_from_xyz(molecule,"aug-cc-pvdz-jkfit",normalized=false,auxiliar=true)
-
 function get_I2(shells_aux)
     
     g_1 = build_zero_shell()
@@ -770,8 +740,6 @@ function get_I2(shells_aux)
     return I
     
 end
-
-@btime I = get_I2(shells_aux)
 
 function get_I3(shells,shells_aux)
     
