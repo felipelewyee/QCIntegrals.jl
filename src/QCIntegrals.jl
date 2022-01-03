@@ -181,37 +181,44 @@ function get_set_of_shells(element,coord,basis_name;normalized=true,auxiliar=fal
                         
 end
 
-function get_all_shells_from_xyz(molecule,basis_name;normalized=true,auxiliar=false)
-    molecule = split(molecule,"\n")    
-    natoms = size(molecule)[1]
-    shells = []
-    for iatom in 1:natoms
-        atom = split(molecule[iatom])
-        if size(atom)[1] >= 1
-            shell = get_set_of_shells(atom[1],[parse(Float64,atom[2]),parse(Float64,atom[3]),parse(Float64,atom[4])],basis_name,normalized=normalized,auxiliar=auxiliar)
-            append!(shells,shell)
-        end
-    end
-    return shells        
+struct molecule
+    symbols
+    Zs
+    coords
 end
 
-function get_Z_xyz(molecule)
-    symbol_to_Z = Dict("H" => 1, "He" => 2, "Li" => 3, "Be" => 4, "B" => 5, "C" => 6, "N" => 7, "O" => 8, "F" => 9, "Ne" => 10) 
-    molecule = split(molecule,"\n")    
-    natoms = size(molecule)[1]
-
+function build_molecule(xyz)
+    
+    symbols = []
     Zs = []
     coords = []
+    
+    symbol_to_Z = Dict("H" => 1, "He" => 2, "Li" => 3,
+        "Be" => 4, "B" => 5, "C" => 6, "N" => 7, "O" => 8, "F" => 9, "Ne" => 10)     
+    
+    xyz = split(xyz,"\n")    
+    natoms = size(xyz)[1]
     for iatom in 1:natoms
-        atom = split(molecule[iatom])
+        atom = split(xyz[iatom])
         if size(atom)[1] >= 1
+            append!(symbols,atom[1])
             append!(Zs,symbol_to_Z[atom[1]])
             append!(coords,[[parse(Float64,atom[2]),parse(Float64,atom[3]),parse(Float64,atom[4])]])
         end
     end
-
-    return Zs,coords
     
+    return molecule(symbols,Zs,coords)
+
+end
+
+function build_basis(mol,basis_name;normalized=true,auxiliar=false)
+    shells = []
+    for (symbol,coord) in zip(mol.symbols,mol.coords)
+        println(symbol)
+        shell = get_set_of_shells(string(symbol),coord,basis_name,normalized=normalized,auxiliar=auxiliar)
+        append!(shells,shell)
+    end
+    return shells
 end
 
 function get_nbf(shells)

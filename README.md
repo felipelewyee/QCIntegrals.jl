@@ -8,18 +8,17 @@ The following code defines the geometry of a molecule in Bohrs, and compute one-
 
 ```julia
 
-molecule = """
+mol = QCIntegrals.build_molecule("""
 O   0.000000  0.000000  0.000000
 H   0.277400  0.892900  0.254400
 H   0.606800 -0.238300 -0.716900
 """
 
-shells = QCIntegrals.get_all_shells_from_xyz(molecule,"aug-cc-pvdz")
-Zs,coords = QCIntegrals.get_Z_xyz(molecule)
+shells = QCIntegrals.build_basis(molecule,"aug-cc-pvdz")
 
 S = QCIntegrals.get_S(shells)
 T = QCIntegrals.get_T(shells)
-V = QCIntegrals.get_V(shells,Zs,coords)
+V = QCIntegrals.get_V(shells,mol.Zs,mol.coords)
 ```
 
 Two-electron integrals can also be computed
