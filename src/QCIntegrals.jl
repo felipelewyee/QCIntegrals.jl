@@ -114,7 +114,7 @@ function build_shell_pair(g_a, g_b)
 
 end
 
-function get_set_of_shells(element,coord,basis_name;normalized=true,auxiliar=false)
+function build_set_of_shells(element,coord,basis_name;normalized=true,auxiliar=false)
 
     key_to_l = Dict("S" => 0, "P" => 1, "D" => 2, "F" => 3, "G" => 4, "H" => 5, "I" => 6)
 
@@ -187,14 +187,17 @@ struct molecule
     coords
 end
 
-function build_molecule(xyz)
+function build_molecule(xyz;units="Angstrom")
     
     symbols = []
     Zs = []
     coords = []
-    
+
     symbol_to_Z = Dict("H" => 1, "He" => 2, "Li" => 3,
-        "Be" => 4, "B" => 5, "C" => 6, "N" => 7, "O" => 8, "F" => 9, "Ne" => 10)     
+        "Be" => 4, "B" => 5, "C" => 6, "N" => 7, "O" => 8, "F" => 9, "Ne" => 10,
+        "Na" => 11, "Mg" => 12, "Al" => 13, "Si" => 14, "P" => 15,"S" => 16, "Cl" => 17, "Ar" => 18,
+        "K" => 19, "Ca" => 20, "Sc" => 21, "Ti" => 22, "V" => 23,"Cr" => 24, "Mn" => 25, "Fe" => 26, "Co" => 27, "Ni" => 28, "Cu" => 29, "Zn" => 30, "Ga" => 31,"Ge" => 32, "As" => 33, "Se" => 34, "Br" => 35, "Kr" => 36,
+        "Rb" => 37, "Sr" => 38, "Y" => 39, "Zr" => 40, "Nb" => 41,"Mo" => 42, "Tc" => 43, "Ru" => 44, "Rh" => 45, "Pd" => 46, "Ag" => 47, "Cd" => 48, "In" => 49,"Sn" => 50, "Sb" => 51, "Te" => 52, "I" => 53, "Xe" => 54,)     
     
     xyz = split(xyz,"\n")    
     natoms = size(xyz)[1]
@@ -206,6 +209,10 @@ function build_molecule(xyz)
             append!(coords,[[parse(Float64,atom[2]),parse(Float64,atom[3]),parse(Float64,atom[4])]])
         end
     end
+
+    if(units=="Angstrom")
+        coords = coords*1.88973
+    end
     
     return molecule(symbols,Zs,coords)
 
@@ -214,8 +221,7 @@ end
 function build_basis(mol,basis_name;normalized=true,auxiliar=false)
     shells = []
     for (symbol,coord) in zip(mol.symbols,mol.coords)
-        println(symbol)
-        shell = get_set_of_shells(string(symbol),coord,basis_name,normalized=normalized,auxiliar=auxiliar)
+        shell = build_set_of_shells(string(symbol),coord,basis_name,normalized=normalized,auxiliar=auxiliar)
         append!(shells,shell)
     end
     return shells
@@ -345,7 +351,7 @@ function overlap(pairAB)
     
 end
 
-function get_S(shells)
+function build_S(shells)
     
     nbf = get_nbf(shells)
     
@@ -447,7 +453,7 @@ function kinetic(pairAB)
     
 end
 
-function get_T(shells)
+function build_T(shells)
     
     nbf = get_nbf(shells)
     
@@ -552,7 +558,7 @@ function potential(pairAB,Z,coord)
     
 end
 
-function get_V(shells,Zs,coords)
+function build_V(shells,Zs,coords)
     
     nbf = get_nbf(shells)
     
@@ -644,7 +650,7 @@ function ERI(pairAB,pairCD)
     
 end      
 
-function get_I4(shells)
+function build_I4(shells)
     
     nbf = get_nbf(shells)
     
@@ -724,7 +730,7 @@ function build_aux_shell(l,exp,coef,coord)
     
 end
 
-function get_I2(shells_aux)
+function build_I2(shells_aux)
     
     g_1 = build_zero_shell()
     
@@ -749,7 +755,7 @@ function get_I2(shells_aux)
     
 end
 
-function get_I3(shells,shells_aux)
+function build_I3(shells,shells_aux)
     
     g_1 = build_zero_shell()
     
