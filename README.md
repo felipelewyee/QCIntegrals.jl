@@ -27,6 +27,6 @@ Two-electron integrals can also be computed
 I4 = get_I4(shells)
 
 shells_aux = get_all_shells_from_xyz(molecule,"aug-cc-pvdz-jkfit",normalized=false,auxiliar=true)
-I3 = get_I2(shells_aux)
-I2 = get_I3(shells_aux)
+I2 = get_I2(shells_aux)
+I3 = get_I3(shells_aux)
 ```
