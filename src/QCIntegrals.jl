@@ -1,4 +1,4 @@
-module QCInts
+module QCIntegrals
 
 using HypergeometricFunctions
 using SpecialFunctions
