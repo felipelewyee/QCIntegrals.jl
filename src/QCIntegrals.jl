@@ -122,7 +122,8 @@ function get_set_of_shells(element,coord,basis_name;normalized=true,auxiliar=fal
     shells = []
     
     # Basis file
-    f = open("basis/"*basis_name*".gbs","r")
+    filename = joinpath(@__DIR__,"../basis/"*basis_name*".gbs")
+    f = open(filename,"r")
     lines = readlines(f)
     close(f)
     
