@@ -574,7 +574,7 @@ function potential(pairAB,Z,coord)
         end
     end
     
-    return Z*result
+    return -Z*result
     
 end
 
