@@ -413,7 +413,7 @@ function Tij(la,lb,xyz,pairAB)
     end
 
     ii = 0
-    for jprim in 1:size(pairAB.g_b.exp)[1], iprim in 1:size(pairAB.g_a.exp)[1]
+    for iprim in 1:size(pairAB.g_a.exp)[1], jprim in 1:size(pairAB.g_b.exp)[1]
         ii += 1
         i=0
         j=0
