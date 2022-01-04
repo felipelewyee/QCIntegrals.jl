@@ -806,4 +806,16 @@ function build_I3(shells,shells_aux)
     
 end
 
-end # module
+function E_nuc(mol)
+    
+    E = 0.0
+    
+    for i in 1:size(mol.Zs)[1]
+        for j in i+1:size(mol.Zs)[1]
+            E += mol.Zs[i]*mol.Zs[j]/norm(mol.coords[i]-mol.coords[j]) 
+        end
+    end
+    
+    return E
+    
+end
