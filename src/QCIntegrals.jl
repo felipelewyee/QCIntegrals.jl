@@ -208,7 +208,7 @@ function build_molecule(xyz;units="Angstrom")
     natoms = size(xyz)[1]
     for iatom in 1:natoms
         line = split(xyz[iatom])
-        if size(line)[1] == 3
+        if size(line)[1] == 4
             append!(symbols,line[1])
             append!(Zs,symbol_to_Z[line[1]])
             append!(coords,[[parse(Float64,line[2]),parse(Float64,line[3]),parse(Float64,line[4])]])
