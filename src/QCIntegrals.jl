@@ -817,5 +817,7 @@ function E_nuc(mol)
     end
     
     return E
-    
+
+    end
+
 end
