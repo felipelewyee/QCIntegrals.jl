@@ -182,6 +182,8 @@ function build_set_of_shells(element,coord,basis_name;normalized=true,auxiliar=f
 end
 
 struct molecule
+    charge
+    mult
     symbols
     Zs
     coords
@@ -189,10 +191,13 @@ end
 
 function build_molecule(xyz;units="Angstrom")
     
+    charge = 0
+    mult = 0
+    
     symbols = []
     Zs = []
     coords = []
-
+    
     symbol_to_Z = Dict("H" => 1, "He" => 2, "Li" => 3,
         "Be" => 4, "B" => 5, "C" => 6, "N" => 7, "O" => 8, "F" => 9, "Ne" => 10,
         "Na" => 11, "Mg" => 12, "Al" => 13, "Si" => 14, "P" => 15,"S" => 16, "Cl" => 17, "Ar" => 18,
@@ -202,20 +207,35 @@ function build_molecule(xyz;units="Angstrom")
     xyz = split(xyz,"\n")    
     natoms = size(xyz)[1]
     for iatom in 1:natoms
-        atom = split(xyz[iatom])
-        if size(atom)[1] >= 1
-            append!(symbols,atom[1])
-            append!(Zs,symbol_to_Z[atom[1]])
-            append!(coords,[[parse(Float64,atom[2]),parse(Float64,atom[3]),parse(Float64,atom[4])]])
+        line = split(xyz[iatom])
+        if size(line)[1] == 3
+            append!(symbols,line[1])
+            append!(Zs,symbol_to_Z[line[1]])
+            append!(coords,[[parse(Float64,line[2]),parse(Float64,line[3]),parse(Float64,line[4])]])
+        elseif size(line)[1] == 2
+            charge = parse(Float64,line[1])
+            mult = parse(Float64,line[2])
         end
     end
-
+    
     if(units=="Angstrom")
         coords = coords*1.88973
     end
     
-    return molecule(symbols,Zs,coords)
+    return molecule(charge,mult,symbols,Zs,coords)
 
+end
+
+function Ne(mol)
+    return sum(mol.Zs) - mol.charge
+end
+
+function Nalpha(mol)
+    return (sum(mol.Zs) - mol.charge + (mol.mult-1))/2
+end
+
+function Nbeta(mol)
+    return (sum(mol.Zs) - mol.charge - (mol.mult-1))/2
 end
 
 function build_basis(mol,basis_name;normalized=true,auxiliar=false)
