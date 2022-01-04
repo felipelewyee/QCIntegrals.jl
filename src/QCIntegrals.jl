@@ -151,7 +151,7 @@ function build_set_of_shells(element,coord,basis_name;normalized=true,auxiliar=f
     coef = []
     for line in lines[atom_line+1:size(lines)[1]]
         splitted_line = split(line)
-        if(size(splitted_line)[1]==4)
+        if(size(splitted_line)[1]==3)
             exp = []
             coef = []
             try

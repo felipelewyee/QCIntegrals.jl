@@ -1,7 +1,6 @@
 name = "QCIntegrals"
 uuid = "67d073f6-f659-405d-833d-5a2f6a1cf902"
-authors = ["Juan Felipe Huan Lew Yee <felipe.lew.yee@quimica.unam.mx>",
-           "Jorge Martín del Campo Ramírez <jmdelc@unam.mx>"]
+authors = ["Juan Felipe Huan Lew Yee <felipe.lew.yee@quimica.unam.mx>", "Jorge Martín del Campo Ramírez <jmdelc@unam.mx>"]
 version = "0.1.1"
 
 [deps]
@@ -10,6 +9,6 @@ LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 SpecialFunctions = "276daf66-3868-5448-9aa4-cd146d93841b"
 
 [compat]
-julia = "1.5"
 HypergeometricFunctions = "0.3.8"
 SpecialFunctions = "2.0.0"
+julia = "1.5"
